@@ -92,44 +92,26 @@ function App() {
       return;
     }
 
-    tableRows.push(<tr><td><TrainArrival subway_line={upcomingTrain.route} display_string={timeRemaining} /></td></tr>)
+    tableRows.push(<div><TrainArrival subway_line={upcomingTrain.route} display_string={timeRemaining} /></div>)
   })
 
 
   return (
       <div>
-
         <div className={"App-updatedAt"}>{new Date(lastUpdatedAt).toLocaleString()}</div>
-        <div className={"App-outerLayout"}>
-          <div>
-            <table className={"App-table"}>
-              <thead>
-              <th> Upcoming Trains </th>
-              </thead>
-              <tbody>
-              {tableRows}
-              </tbody>
-            </table>
+        <div className={"App-body"}>
+          <div className={"App-upcomingTrains"}>
+            {tableRows}
           </div>
-          <div>
-            <table className={"App-table"}>
-              <tr>
-                <th> Upcoming Buses</th>
-              </tr>
-              <tbody>
-              <tr>
-                {tableRows}
-              </tr>
-              </tbody>
-            </table>
-
-            <div className={"App-EbikeRow"}>
-              <div className={"App-EbikeTitle"}> Nearby EBikes </div>
-              <NearbyEBikes />
-            </div>
+          <div className={"App-upcomingBuses"}>
+            {tableRows}
+          </div>
+          <div className={"App-nearbyEbikes"}>
+            <NearbyEBikes/>
           </div>
         </div>
       </div>
+
   );
 }
 

@@ -1,4 +1,7 @@
 import React from 'react';
+import './NearbyEbikes.css';
+import bolt_icon from './img/bolt.svg'
+
 import {
     CARROLL_ST_STATION_ID,
     EBIKE_API_URL,
@@ -26,6 +29,7 @@ type GBFSStationInformation = {
     ebikes: GBFSEBikeDetails[],
     station_id: string
 }
+
 function NearbyEBikes() {
     const [stationsInformation, setStationsInformation] = React.useState<StationInformation[]>([])
     const [lastUpdatedAt, setLastUpdatedAt] = React.useState(0)
@@ -75,9 +79,14 @@ function NearbyEBikes() {
         return {stationInformation: Array.from(ebikeCountPerStation.values()), lastUpdatedAt: response.last_updated}
     }
     async function fetchEBikeData() {
-        const json_response = await fetch(EBIKE_API_URL)
-        const response = await json_response.json()
-        return parseEbikeData(response)
+        try {
+            const json_response = await fetch(EBIKE_API_URL)
+            const response = await json_response.json()
+            return parseEbikeData(response)
+        } catch (error) {
+            console.log(error);
+            return {stationInformation: [], lastUpdatedAt: Date.now()}
+        }
     }
 
     React.useEffect(() => {
@@ -94,11 +103,21 @@ function NearbyEBikes() {
             clearInterval(interval)
         };
     })
-
+//  <img className={"trainArrival-logo"} src={logo} alt="Subway Logo"/>
     return (
-        <div>
+
+        <div className={"NearbyEbikes-container"}>
+            <div className={"NearbyEbikes-titleRow"}>
+                <img className={"NearbyEbikes-logo"} src={bolt_icon} alt="Ebike" />
+                <div className={"NearbyEbikes-title"}> Nearby E-Bikes </div>
+                <img className={"NearbyEbikes-logo"} src={bolt_icon} alt="Ebike" />
+
+            </div>
             {stationsInformation.map(function(stationInfo) {
-                return <div><b>{stationInfo.station_name}</b>  {stationInfo.cosmo + stationInfo.easyRiders}</div>
+                return <div className={"NearbyEbikes-row"}>
+                        <div className={"NearbyEbikes-location"}>{stationInfo.station_name}</div>
+                        <div className={"NearbyEbikes-count"}>{stationInfo.cosmo + stationInfo.easyRiders}</div>
+                    </div>
             })}
         </div>
 

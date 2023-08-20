@@ -1,0 +1,41 @@
+.NearbyEbikes-container {
+    padding-top: 30px;
+    padding-bottom: 15px;
+}
+
+
+
+.NearbyEbikes-titleRow {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 8px;
+    padding-top: 20px;
+}
+
+.NearbyEbikes-logo {
+    max-height: 4vw;
+    padding-left: 40px
+}
+
+.NearbyEbikes-title {
+    font-size: 3.5vw;
+    font-weight: bold;
+}
+
+.NearbyEbikes-row {
+    display: flex;
+    padding-top: 20px;
+    align-items: center;
+}
+
+.NearbyEbikes-location {
+    font-size: 3.5vw;
+    font-weight: bold;
+}
+
+.NearbyEbikes-count {
+    font-size: 3vw;
+    padding-left: 50px
+}
+
