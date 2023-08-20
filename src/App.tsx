@@ -100,32 +100,34 @@ function App() {
       <div>
 
         <div className={"App-updatedAt"}>{new Date(lastUpdatedAt).toLocaleString()}</div>
-
         <div className={"App-outerLayout"}>
-          <table className={"App-table"}>
-            <thead>
-            <th> Upcoming Trains </th>
-            </thead>
-            <tbody>
-            {tableRows}
-            </tbody>
-          </table>
-
-          <table className={"App-table"}>
-            <tr>
-              <th> Upcoming Buses</th>
-            </tr>
-            <tbody>
-            <tr>
+          <div>
+            <table className={"App-table"}>
+              <thead>
+              <th> Upcoming Trains </th>
+              </thead>
+              <tbody>
               {tableRows}
-            </tr>
-            </tbody>
-          </table>
-        </div>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <table className={"App-table"}>
+              <tr>
+                <th> Upcoming Buses</th>
+              </tr>
+              <tbody>
+              <tr>
+                {tableRows}
+              </tr>
+              </tbody>
+            </table>
 
-        <div className={"App-EbikeRow"}>
-          <div className={"App-EbikeTitle"}> Nearby EBikes </div>
-          <NearbyEBikes />
+            <div className={"App-EbikeRow"}>
+              <div className={"App-EbikeTitle"}> Nearby EBikes </div>
+              <NearbyEBikes />
+            </div>
+          </div>
         </div>
       </div>
   );
