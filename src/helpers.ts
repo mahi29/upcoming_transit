@@ -9,5 +9,5 @@ export function maybeGetFormattedDurationString(seconds: number): string {
     if (minutes > 30) {
         return ""
     }
-    return `${minutes} minutes away`
+    return `${minutes} min`
 }

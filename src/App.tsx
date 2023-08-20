@@ -2,9 +2,10 @@ import React from 'react';
 import './App.css';
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 import {JSX} from 'react/jsx-runtime';
-import {UNION_ST_STATION_ID, YELLOW_TRAIN_API_URL, API_KEY} from "./constants";
+import {API_KEY, UNION_ST_STATION_ID, YELLOW_TRAIN_API_URL} from "./constants";
 import {maybeGetFormattedDurationString} from "./helpers";
 import TrainArrival from "./TrainArrival";
+import NearbyEBikes from "./NearbyEBikes";
 
 type UpcomingTrain = { route: string, arrivalTime: number }
 type TrainsAtStation = UpcomingTrain[]
@@ -42,7 +43,7 @@ function App() {
     });
 
     matchingTrains.sort((a, b) => a.arrivalTime - b.arrivalTime)
-    return matchingTrains
+    return matchingTrains.slice(0, 4)
   }
 
   async function getYellowTrainData(): Promise<UpcomingTrain[]> {
@@ -53,7 +54,8 @@ function App() {
         },
       });
       if (!response.ok) {
-        process.exit(1);
+        console.log("Error fetching MTA API");
+        return []
       }
       const buffer = await response.arrayBuffer();
       const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(
@@ -80,7 +82,7 @@ function App() {
     return () => {
       clearInterval(interval)
     };
-  }, []);
+  });
 
 
   const tableRows: JSX.Element[] = []
@@ -96,22 +98,35 @@ function App() {
 
   return (
       <div>
-        <b>{new Date(lastUpdatedAt).toLocaleString()}</b>
-        <table className={"App-table"}>
-          <tr>
-            <th>
-              Upcoming Trains
-            </th>
-            <th>
-              Upcoming Buses
-            </th>
-          </tr>
-          <tbody>
-          <tr>
+
+        <div className={"App-updatedAt"}>{new Date(lastUpdatedAt).toLocaleString()}</div>
+
+        <div className={"App-outerLayout"}>
+          <table className={"App-table"}>
+            <thead>
+            <th> Upcoming Trains </th>
+            </thead>
+            <tbody>
             {tableRows}
-          </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+
+          <table className={"App-table"}>
+            <tr>
+              <th> Upcoming Buses</th>
+            </tr>
+            <tbody>
+            <tr>
+              {tableRows}
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className={"App-EbikeRow"}>
+          <div className={"App-EbikeTitle"}> Nearby EBikes </div>
+          <NearbyEBikes />
+        </div>
       </div>
   );
 }
