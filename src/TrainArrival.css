@@ -1,0 +1,12 @@
+.trainArrival-logo {
+   max-height: 36px;
+}
+
+
+.trainArrival-row {
+    display: flex;
+    justify-content: flex-start;
+    max-height: 40px;
+    align-items: center;
+    gap: 8px;
+}
