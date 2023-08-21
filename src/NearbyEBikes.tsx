@@ -137,7 +137,7 @@ function NearbyEBikes() {
                     </div>
             })
             }
-            <div className={"NearbyEbikes-footer"}>{`Last updated ${new Date(lastUpdatedAt * 1000).toLocaleString()}`}</div>
+            <div className={"NearbyEbikes-footer"}>{`Last updated at ${new Date(lastUpdatedAt * 1000).toLocaleString()}`}</div>
         </div>
 
     )
