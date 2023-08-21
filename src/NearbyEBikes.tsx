@@ -118,7 +118,6 @@ function NearbyEBikes() {
             clearInterval(interval)
         };
     })
-    const timeSinceUpdate = getDuration(Date.now(), lastUpdatedAt * 1000)
     const title = stationsInformation.length > 0 ? "Nearby E-Bikes" : "No E-Bikes Nearby"
     const titleClass = stationsInformation.length > 0 ? "NearbyEbikes-title" : "NearbyEbikes-title-noBikes"
     return (
@@ -138,7 +137,7 @@ function NearbyEBikes() {
                     </div>
             })
             }
-            <div className={"NearbyEbikes-footer"}>{`Last updated ${timeSinceUpdate} min ago`}</div>
+            <div className={"NearbyEbikes-footer"}>{`Last updated ${new Date(lastUpdatedAt * 1000).toLocaleString()}`}</div>
         </div>
 
     )
