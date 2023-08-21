@@ -10,7 +10,7 @@
     justify-content: space-evenly;
     align-items: center;
     gap: 8px;
-    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .NearbyEbikes-logo {
@@ -21,6 +21,12 @@
 .NearbyEbikes-title {
     font-size: 3.5vw;
     font-weight: bold;
+}
+
+.NearbyEbikes-title-noBikes {
+    font-size: 3.5vw;
+    font-weight: bold;
+    color: orangered;
 }
 
 .NearbyEbikes-row {
@@ -37,5 +43,9 @@
 .NearbyEbikes-count {
     font-size: 3vw;
     padding-left: 50px
+}
+
+.NearbyEbikes-footer {
+    padding-top: 10px
 }
 

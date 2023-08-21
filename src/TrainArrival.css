@@ -17,3 +17,17 @@
     font-weight: bold;
     font-size: 5vw;
 }
+
+.trainArrival-warning {
+    margin-left: 5vw;
+    font-weight: bold;
+    font-size: 5vw;
+    color: gold;
+}
+
+.trainArrival-tooLate {
+    margin-left: 5vw;
+    font-weight: bold;
+    font-size: 5vw;
+    color: red;
+}

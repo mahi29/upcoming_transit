@@ -1,13 +1,6 @@
-export function maybeGetFormattedDurationString(seconds: number): string {
-    const milliseconds = new Date(seconds * 1000).getTime() - Date.now()
+export function getDuration(toTimeMs: number, fromTimeMs?: number): number {
+    const startingTimeMs = fromTimeMs ?? Date.now()
+    const milliseconds = new Date(toTimeMs).getTime() - startingTimeMs
     const secondDifference =  Math.floor(milliseconds / 1000)
-    const minutes = Math.floor(secondDifference / 60);
-    if (minutes <= 0) {
-        return ""
-    }
-
-    if (minutes > 30) {
-        return ""
-    }
-    return `${minutes} min`
+    return Math.floor(secondDifference / 60);
 }

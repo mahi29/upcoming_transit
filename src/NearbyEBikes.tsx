@@ -8,9 +8,10 @@ import {
     FIFTH_AVE_AND_THIRD_ST_STATION_ID,
     FIRST_ST_AND_SIXTH_AVE_STATION_ID, NEARBY_STATIONS
 } from "./constants";
+import {getDuration} from "./helpers";
 
 type StationInformation = {
-    station_name: string
+    station_label: string
     easyRiders: number
     cosmo: number
 }
@@ -32,7 +33,7 @@ type GBFSStationInformation = {
 
 function NearbyEBikes() {
     const [stationsInformation, setStationsInformation] = React.useState<StationInformation[]>([])
-    const [lastUpdatedAt, setLastUpdatedAt] = React.useState(0)
+    const [lastUpdatedAt, setLastUpdatedAt] = React.useState(Date.now() / 1000)
 
     function mergeEbikeInfoPerStation(nearby_stations: GBFSStationInformation[]) {
         const mergedEbikeInfoPerStation: Map<string, GBFSEBikeDetails[]> = new Map()
@@ -57,18 +58,18 @@ function NearbyEBikes() {
             let station_name = ""
             switch(station_id) {
                 case FIRST_ST_AND_SIXTH_AVE_STATION_ID:
-                    station_name = "1st St & 6 Ave"
+                    station_name = "Blank Street Coffee"
                     break;
                 case CARROLL_ST_STATION_ID:
-                    station_name = "Carroll St & 5 Ave"
+                    station_name = "al di la "
                     break;
                 case FIFTH_AVE_AND_THIRD_ST_STATION_ID:
-                    station_name = "5 Ave & 3 St"
+                    station_name = "Playground"
                     break
             }
 
             const info: StationInformation = {
-                station_name: station_name,
+                station_label: station_name,
                 easyRiders: ebikes.filter(ebike => ebike.make_and_model === "motivate_bike_easy_rider").length,
                 cosmo: ebikes.filter(ebike => ebike.make_and_model === "lyft_bike_cosmo").length,
             }
@@ -103,22 +104,27 @@ function NearbyEBikes() {
             clearInterval(interval)
         };
     })
-//  <img className={"trainArrival-logo"} src={logo} alt="Subway Logo"/>
+    const timeSinceUpdate = getDuration(Date.now(), lastUpdatedAt * 1000)
+    const title = stationsInformation.length > 0 ? "Nearby E-Bikes" : "No E-Bikes Nearby"
+    const titleClass = stationsInformation.length > 0 ? "NearbyEbikes-title" : "NearbyEbikes-title-noBikes"
     return (
 
         <div className={"NearbyEbikes-container"}>
             <div className={"NearbyEbikes-titleRow"}>
                 <img className={"NearbyEbikes-logo"} src={bolt_icon} alt="Ebike" />
-                <div className={"NearbyEbikes-title"}> Nearby E-Bikes </div>
+                <div className={titleClass}> {title} </div>
                 <img className={"NearbyEbikes-logo"} src={bolt_icon} alt="Ebike" />
 
             </div>
-            {stationsInformation.map(function(stationInfo) {
+            {
+                stationsInformation.map(function(stationInfo) {
                 return <div className={"NearbyEbikes-row"}>
-                        <div className={"NearbyEbikes-location"}>{stationInfo.station_name}</div>
+                        <div className={"NearbyEbikes-location"}>{stationInfo.station_label}</div>
                         <div className={"NearbyEbikes-count"}>{stationInfo.cosmo + stationInfo.easyRiders}</div>
                     </div>
-            })}
+            })
+            }
+            <div className={"NearbyEbikes-footer"}>{`Last updated ${timeSinceUpdate} min ago`}</div>
         </div>
 
     )
