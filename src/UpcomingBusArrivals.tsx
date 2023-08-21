@@ -36,8 +36,6 @@ function UpcomingBusArrivals() {
    React.useEffect(() => {
       const interval = setInterval(() => {
          (async () => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const siriData = await fetchB63Data()
             setUpcomingArrivals([])
 
          })();
