@@ -6,7 +6,6 @@ import {API_KEY, UNION_ST_STATION_ID, YELLOW_TRAIN_API_URL} from "./constants";
 import {getDuration } from "./helpers";
 import TrainArrival from "./TrainArrival";
 import NearbyEBikes from "./NearbyEBikes";
-import UpcomingBusArrivals from "./UpcomingBusArrivals";
 
 type UpcomingTrain = { route: string, arrivalTime: number }
 type TrainsAtStation = UpcomingTrain[]

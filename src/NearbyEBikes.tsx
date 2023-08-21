@@ -97,7 +97,7 @@ function NearbyEBikes() {
                 setStationsInformation(gbfsData.stationInformation)
                 setLastUpdatedAt(gbfsData.lastUpdatedAt)
             })();
-        }, 1000);
+        }, 60000);
 
         // this now gets called when the component unmounts
         return () => {
