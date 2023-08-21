@@ -41,7 +41,7 @@ function UpcomingBusArrivals() {
             setUpcomingArrivals([])
 
          })();
-      }, 60000);
+      }, 30000);
 
       return () => {
          clearInterval(interval)

@@ -3,10 +3,15 @@ import './NearbyEbikes.css';
 import bolt_icon from './img/bolt.svg'
 
 import {
+    CARROLL_ST_AND_SIXTH_AVE_STATION_ID,
     CARROLL_ST_STATION_ID,
     EBIKE_API_URL,
     FIFTH_AVE_AND_THIRD_ST_STATION_ID,
-    FIRST_ST_AND_SIXTH_AVE_STATION_ID, NEARBY_STATIONS
+    FIRST_ST_AND_SIXTH_AVE_STATION_ID,
+    NEARBY_STATIONS,
+    PRESIDENT_AVE_AND_FOURTH_AVE,
+    REFRESH_INTERVAL_MS,
+    UNION_ST_AND_FOURTH_AVE
 } from "./constants";
 import {getDuration} from "./helpers";
 
@@ -61,10 +66,19 @@ function NearbyEBikes() {
                     station_name = "Blank Street Coffee"
                     break;
                 case CARROLL_ST_STATION_ID:
-                    station_name = "al di la "
+                    station_name = "al di la"
                     break;
                 case FIFTH_AVE_AND_THIRD_ST_STATION_ID:
                     station_name = "Playground"
+                    break
+                case CARROLL_ST_AND_SIXTH_AVE_STATION_ID:
+                    station_name = "Church"
+                    break
+                case PRESIDENT_AVE_AND_FOURTH_AVE:
+                    station_name = "Blink Fitness"
+                    break
+                case UNION_ST_AND_FOURTH_AVE:
+                    station_name = "Starbucks"
                     break
             }
 
@@ -97,7 +111,7 @@ function NearbyEBikes() {
                 setStationsInformation(gbfsData.stationInformation)
                 setLastUpdatedAt(gbfsData.lastUpdatedAt)
             })();
-        }, 60000);
+        }, REFRESH_INTERVAL_MS);
 
         // this now gets called when the component unmounts
         return () => {

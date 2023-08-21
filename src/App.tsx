@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 import {JSX} from 'react/jsx-runtime';
-import {API_KEY, UNION_ST_STATION_ID, YELLOW_TRAIN_API_URL} from "./constants";
+import {API_KEY, REFRESH_INTERVAL_MS, UNION_ST_STATION_ID, YELLOW_TRAIN_API_URL} from "./constants";
 import {getDuration } from "./helpers";
 import TrainArrival from "./TrainArrival";
 import NearbyEBikes from "./NearbyEBikes";
@@ -42,8 +42,7 @@ function App() {
       })
     });
 
-    matchingTrains.sort((a, b) => a.arrivalTime - b.arrivalTime)
-    return matchingTrains.slice(0, 4)
+    return matchingTrains.sort((a, b) => a.arrivalTime - b.arrivalTime)
   }
 
   async function getYellowTrainData(): Promise<UpcomingTrain[]> {
@@ -76,7 +75,7 @@ function App() {
         setUpcomingTrains(updates);
         setLastUpdatedAt(Date.now())
       })();
-    }, 60000);
+    }, REFRESH_INTERVAL_MS);
 
     // this now gets called when the component unmounts
     return () => {
