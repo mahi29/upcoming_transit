@@ -17,6 +17,7 @@ import {getDuration} from "./helpers";
 
 type StationInformation = {
     station_label: string
+    station_distance: number
     easyRiders: number
     cosmo: number
 }
@@ -61,29 +62,39 @@ function NearbyEBikes() {
         const ebikeCountPerStation: Map<string, StationInformation> = new Map()
         mergedEbikeInfoPerStation.forEach(function (ebikes, station_id) {
             let station_name = ""
+            let station_distance = 0.0
+            // Note -- the distances aren't actual physical distances
+            // They are just relatively ordered from how close they are from my apartment
             switch(station_id) {
                 case FIRST_ST_AND_SIXTH_AVE_STATION_ID:
                     station_name = "Blank Street Coffee"
+                    station_distance = 6
                     break;
                 case CARROLL_ST_STATION_ID:
                     station_name = "al di la"
+                    station_distance = 1
                     break;
                 case FIFTH_AVE_AND_THIRD_ST_STATION_ID:
                     station_name = "Playground"
+                    station_distance = 2
                     break
                 case CARROLL_ST_AND_SIXTH_AVE_STATION_ID:
                     station_name = "Church"
+                    station_distance = 5
                     break
                 case PRESIDENT_AVE_AND_FOURTH_AVE:
                     station_name = "Blink Fitness"
+                    station_distance = 3
                     break
                 case UNION_ST_AND_FOURTH_AVE:
                     station_name = "Starbucks"
+                    station_distance = 4
                     break
             }
 
             const info: StationInformation = {
                 station_label: station_name,
+                station_distance: station_distance,
                 easyRiders: ebikes.filter(ebike => ebike.make_and_model === "motivate_bike_easy_rider").length,
                 cosmo: ebikes.filter(ebike => ebike.make_and_model === "lyft_bike_cosmo").length,
             }
@@ -130,7 +141,7 @@ function NearbyEBikes() {
 
             </div>
             {
-                stationsInformation.map(function(stationInfo) {
+                stationsInformation.sort((a, b) => a.station_distance - b.station_distance).map(function(stationInfo) {
                 return <div className={"NearbyEbikes-row"}>
                         <div className={"NearbyEbikes-location"}>{stationInfo.station_label}</div>
                         <div className={"NearbyEbikes-count"}>{stationInfo.cosmo + stationInfo.easyRiders}</div>
