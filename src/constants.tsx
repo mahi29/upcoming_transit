@@ -1,6 +1,7 @@
 export const UNION_ST_STATION_ID = "R32N"
 export const API_KEY = "S6z7gtwCc51QJprQw7t685ksgqgkSAan6SVAx6Rm"
 export const YELLOW_TRAIN_API_URL = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw"
+export const ORANGE_TRAIN_API_URL = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm"
 export const EBIKE_API_URL = "https://gbfs.lyft.com/gbfs/1.1/bkn/en/ebikes_at_stations.json"
 export const REFRESH_INTERVAL_MS = 30 * 1000
 export const CARROLL_ST_STATION_ID = "motivate_BKN_66de1fe7-0aca-11e7-82f6-3863bb44ef7c"
