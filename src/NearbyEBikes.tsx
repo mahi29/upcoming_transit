@@ -76,31 +76,34 @@ function NearbyEBikes() {
         // last_updated is in seconds
         return {stationInformation: Array.from(ebikeCountPerStation.values()), lastUpdatedAt: response.last_updated}
     }
-    async function fetchEBikeData() {
-        try {
-            const json_response = await fetch(EBIKE_API_URL)
-            const response = await json_response.json()
-            return parseEbikeData(response)
-        } catch (error) {
-            console.log(error);
-            return {stationInformation: [], lastUpdatedAt: Date.now()}
-        }
-    }
 
     React.useEffect(() => {
+        async function fetchEBikeData() {
+            try {
+                const json_response = await fetch(EBIKE_API_URL)
+                const response = await json_response.json()
+                return parseEbikeData(response)
+            } catch (error) {
+                console.log(error);
+                return {stationInformation: [], lastUpdatedAt: Date.now()}
+            }
+        }
+
+        fetchEBikeData().then((gbfsData) => {
+            setStationsInformation(gbfsData.stationInformation)
+            setLastUpdatedAt(gbfsData.lastUpdatedAt)
+        });
+
         const interval = setInterval(() => {
-            (async () => {
-                const gbfsData = await fetchEBikeData()
+            console.log(`MAHITH setInterval at ${Date.now()}`)
+            fetchEBikeData().then((gbfsData) => {
                 setStationsInformation(gbfsData.stationInformation)
                 setLastUpdatedAt(gbfsData.lastUpdatedAt)
-            })();
+            });
         }, REFRESH_INTERVAL_MS);
+        return () => clearInterval(interval);
+    }, [])
 
-        // this now gets called when the component unmounts
-        return () => {
-            clearInterval(interval)
-        };
-    })
     const title = stationsInformation.length > 0 ? "Nearby E-Bikes" : "No E-Bikes Nearby"
     const titleClass = stationsInformation.length > 0 ? "NearbyEbikes-title" : "NearbyEbikes-title-noBikes"
     return (

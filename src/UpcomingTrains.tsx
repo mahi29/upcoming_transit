@@ -47,53 +47,6 @@ function UpcomingTrains() {
         return matchingTrains.sort((a, b) => a.arrivalTime - b.arrivalTime)
     }
 
-    async function getYellowTrainData(): Promise<UpcomingTrain[]> {
-        try {
-            const response = await fetch(YELLOW_TRAIN_API_URL, {
-                headers: {
-                    "x-api-key": API_KEY,
-                },
-            });
-            if (!response.ok) {
-                console.log("Error fetching MTA API");
-                return []
-            }
-            const buffer = await response.arrayBuffer();
-            const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(
-                new Uint8Array(buffer)
-            );
-            const parsedData = parseData(feed)
-            return Array.from(parsedData.values())
-        } catch (error) {
-            console.log(error);
-            return []
-        }
-    }
-
-    async function getOrangeTrainData(): Promise<UpcomingTrain[]> {
-        try {
-            const response = await fetch(ORANGE_TRAIN_API_URL, {
-                headers: {
-                    "x-api-key": API_KEY,
-                },
-            });
-            if (!response.ok) {
-                console.log("Error fetching orange MTA API");
-                return []
-            }
-            const buffer = await response.arrayBuffer();
-            const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(
-                new Uint8Array(buffer)
-            );
-            const parsedData = parseData(feed)
-            return Array.from(parsedData.values())
-        } catch (error) {
-            console.log(error);
-            return []
-        }
-    }
-
-
     function mergeTrains(trainSet1: UpcomingTrain[], trainSet2: UpcomingTrain[]): UpcomingTrain[] {
         let trainSet1Pointer: number = 0
         let trainSet2Pointer: number = 0
@@ -123,21 +76,77 @@ function UpcomingTrains() {
         return mergedArray
     }
 
+
     React.useEffect(() => {
+        async function getYellowTrainData(): Promise<UpcomingTrain[]> {
+            try {
+                const response = await fetch(YELLOW_TRAIN_API_URL, {
+                    headers: {
+                        "x-api-key": API_KEY,
+                    },
+                });
+                if (!response.ok) {
+                    console.log("Error fetching MTA API");
+                    return []
+                }
+                const buffer = await response.arrayBuffer();
+                const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(
+                    new Uint8Array(buffer)
+                );
+                const parsedData = parseData(feed)
+                return Array.from(parsedData.values())
+            } catch (error) {
+                console.log(error);
+                return []
+            }
+        }
+
+        async function getOrangeTrainData(): Promise<UpcomingTrain[]> {
+            try {
+                const response = await fetch(ORANGE_TRAIN_API_URL, {
+                    headers: {
+                        "x-api-key": API_KEY,
+                    },
+                });
+                if (!response.ok) {
+                    console.log("Error fetching orange MTA API");
+                    return []
+                }
+                const buffer = await response.arrayBuffer();
+                const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(
+                    new Uint8Array(buffer)
+                );
+                const parsedData = parseData(feed)
+                return Array.from(parsedData.values())
+            } catch (error) {
+                console.log(error);
+                return []
+            }
+        }
+
+        async function fetchTrainData() {
+            const yellowUpdates = await getYellowTrainData();
+            const orangeUpdates = await getOrangeTrainData();
+            return mergeTrains(yellowUpdates, orangeUpdates)
+        }
+
+        fetchTrainData().then((trainData) => {
+            setUpcomingTrains(trainData)
+            setLastUpdatedAt(Date.now())
+        })
+
         const interval = setInterval(() => {
-            (async () => {
-                const yellowUpdates = await getYellowTrainData();
-                const orangeUpdates = await getOrangeTrainData();
-                setUpcomingTrains(mergeTrains(yellowUpdates, orangeUpdates));
+            fetchTrainData().then((trainData) => {
+                setUpcomingTrains(trainData)
                 setLastUpdatedAt(Date.now())
-            })();
+            })
         }, REFRESH_INTERVAL_MS);
 
         // this now gets called when the component unmounts
         return () => {
             clearInterval(interval)
         };
-    });
+    }, []);
 
     return (
         <div>
