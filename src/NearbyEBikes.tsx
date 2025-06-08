@@ -13,27 +13,15 @@ import {
     REFRESH_INTERVAL_MS,
     UNION_ST_AND_FOURTH_AVE
 } from "./constants";
-import {getDuration} from "./helpers";
 
 type StationInformation = {
     station_label: string
     station_distance: number
-    easyRiders: number
-    cosmo: number
-}
-
-type GBFSEBikeDetails = {
-    battery_charge_percentage: number
-    displayed_number: number
-    docking_capability: number
-    is_lbs_internal_rideable: boolean
-    make_and_model: "lyft_bike_cosmo" | "motivate_bike_easy_rider"
-    range_estimate: any
-    rideable_id: string
+    ebikes: number
 }
 
 type GBFSStationInformation = {
-    ebikes: GBFSEBikeDetails[],
+    num_ebikes_available: number
     station_id: string
 }
 
@@ -41,31 +29,16 @@ function NearbyEBikes() {
     const [stationsInformation, setStationsInformation] = React.useState<StationInformation[]>([])
     const [lastUpdatedAt, setLastUpdatedAt] = React.useState(Date.now() / 1000)
 
-    function mergeEbikeInfoPerStation(nearby_stations: GBFSStationInformation[]) {
-        const mergedEbikeInfoPerStation: Map<string, GBFSEBikeDetails[]> = new Map()
-        nearby_stations.forEach(function (nearby_station: GBFSStationInformation) {
-            const ebikesSeen: GBFSEBikeDetails[] = mergedEbikeInfoPerStation.get(nearby_station.station_id) ?? []
-            const newEbikesSeen = nearby_station.ebikes.filter(ebike => !ebikesSeen.map(e => e.rideable_id).includes(ebike.rideable_id))
-
-            if (mergedEbikeInfoPerStation.has(nearby_station.station_id)) {
-                ebikesSeen.push(...newEbikesSeen)
-            } else {
-                mergedEbikeInfoPerStation.set(nearby_station.station_id, newEbikesSeen)
-            }
-        })
-        return mergedEbikeInfoPerStation
-    }
     function parseEbikeData(response: any): {stationInformation: StationInformation[], lastUpdatedAt: number} {
         const station_data: GBFSStationInformation[] = response.data.stations
         const nearby_stations = station_data.filter(s => NEARBY_STATIONS.includes(s.station_id))
-        const mergedEbikeInfoPerStation = mergeEbikeInfoPerStation(nearby_stations)
         const ebikeCountPerStation: Map<string, StationInformation> = new Map()
-        mergedEbikeInfoPerStation.forEach(function (ebikes, station_id) {
+        nearby_stations.forEach(gbfs_station_data => {
             let station_name = ""
             let station_distance = 0.0
             // Note -- the distances aren't actual physical distances
             // They are just relatively ordered from how close they are from my apartment
-            switch(station_id) {
+            switch(gbfs_station_data.station_id) {
                 case FIRST_ST_AND_SIXTH_AVE_STATION_ID:
                     station_name = "Blank Street Coffee"
                     station_distance = 6
@@ -95,11 +68,10 @@ function NearbyEBikes() {
             const info: StationInformation = {
                 station_label: station_name,
                 station_distance: station_distance,
-                easyRiders: ebikes.filter(ebike => ebike.make_and_model === "motivate_bike_easy_rider").length,
-                cosmo: ebikes.filter(ebike => ebike.make_and_model === "lyft_bike_cosmo").length,
+                ebikes: gbfs_station_data.num_ebikes_available
             }
 
-            ebikeCountPerStation.set(station_id, info)
+            ebikeCountPerStation.set(gbfs_station_data.station_id, info)
         })
         // last_updated is in seconds
         return {stationInformation: Array.from(ebikeCountPerStation.values()), lastUpdatedAt: response.last_updated}
@@ -144,7 +116,7 @@ function NearbyEBikes() {
                 stationsInformation.sort((a, b) => a.station_distance - b.station_distance).map(function(stationInfo) {
                 return <div className={"NearbyEbikes-row"}>
                         <div className={"NearbyEbikes-location"}>{stationInfo.station_label}</div>
-                        <div className={"NearbyEbikes-count"}>{stationInfo.cosmo + stationInfo.easyRiders}</div>
+                        <div className={"NearbyEbikes-count"}>{stationInfo.ebikes}</div>
                     </div>
             })
             }
