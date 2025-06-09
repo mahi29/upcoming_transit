@@ -2,13 +2,13 @@
   "version": 2,
   "functions": {
     "api/**/*.ts": {
-      "runtime": "vercel/node@20.x"
+      "runtime": "nodejs20.x"
     }
   },
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/bin/www"
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     }
   ]
 }
