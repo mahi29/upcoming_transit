@@ -1,10 +1,10 @@
-.trainArrival-logo {
+.transitArrival-logo {
     max-height: 8vw;
     padding-left: 40px
 }
 
 
-.trainArrival-row {
+.transitArrival-row {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -12,20 +12,20 @@
     padding-top: 20px;
 }
 
-.trainArrival-displayString {
+.transitArrival-displayString {
     margin-left: 5vw;
     font-weight: bold;
     font-size: 5vw;
 }
 
-.trainArrival-warning {
+.transitArrival-warning {
     margin-left: 5vw;
     font-weight: bold;
     font-size: 5vw;
     color: gold;
 }
 
-.trainArrival-tooLate {
+.transitArrival-tooLate {
     margin-left: 5vw;
     font-weight: bold;
     font-size: 5vw;

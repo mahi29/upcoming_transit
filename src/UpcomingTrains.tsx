@@ -9,7 +9,9 @@ import {
     YELLOW_TRAIN_API_URL
 } from "./constants";
 import {getDuration} from "./helpers";
-import TrainArrival from "./TrainArrival";
+import TransitArrival from "./TransitArrival";
+import GridContainer from "./GridContainer";
+import bolt_icon from "./img/bolt.svg";
 type UpcomingTrain = { route: string, arrivalTime: number }
 type TrainsAtStation = UpcomingTrain[]
 function UpcomingTrains() {
@@ -149,13 +151,18 @@ function UpcomingTrains() {
     }, []);
 
     return (
-        <div>
-            {
-                upcomingTrains.map(function (upcomingTrain) {
-                    const minutesLeft = getDuration(upcomingTrain.arrivalTime * 1000)
-                    return <div><TrainArrival subway_line={upcomingTrain.route} minutes_to_arrival={minutesLeft} /></div>
-                })
-            }
+        <div className={"NearbyEbikes-container"}>
+            <div className={"NearbyEbikes-titleRow"}>
+                <div className={"NearbyEbikes-title"}> {"Upcoming Buses"} </div>
+            </div>
+            <div>
+                {
+                    upcomingTrains.map(function (upcomingTrain) {
+                        const minutesLeft = getDuration(upcomingTrain.arrivalTime * 1000)
+                        return <div><TransitArrival transit_route={upcomingTrain.route} minutes_to_arrival={minutesLeft} /></div>
+                    })
+                }
+            </div>
             <div className={"UpcomingTrains-footer"}>{`Last updated at ${new Date(lastUpdatedAt).toLocaleString()}`}</div>
         </div>
     )

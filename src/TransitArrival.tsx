@@ -4,19 +4,19 @@ import n_logo from './img/n_logo.svg'
 import r_logo from './img/r_logo.svg'
 import default_mta_logo from './img/default_mta_logo.svg'
 
-import './TrainArrival.css';
+import './TransitArrival.css';
 
 interface Props {
-    subway_line: string
+    transit_route: string
     minutes_to_arrival: number
 }
-function TrainArrival(props: Props) {
+function TransitArrival(props: Props) {
     if (props.minutes_to_arrival <= 0 || props.minutes_to_arrival > 30) {
         return null;
     }
 
-    function getLogo(subway_line: string) {
-        switch (subway_line) {
+    function getLogo(transit_route: string) {
+        switch (transit_route) {
             case "N":
                 return n_logo
             case "R":
@@ -29,19 +29,20 @@ function TrainArrival(props: Props) {
                 return default_mta_logo
         }
     }
-    const logo = getLogo(props.subway_line)
-    let cssClassForDisplay = "trainArrival-displayString"
+
+    const logo = getLogo(props.transit_route)
+    let cssClassForDisplay = "transitArrival-displayString"
     if (props.minutes_to_arrival < 6) {
-        cssClassForDisplay += " trainArrival-tooLate"
+        cssClassForDisplay += " transitArrival-tooLate"
     } else if (props.minutes_to_arrival < 10) {
-        cssClassForDisplay = " trainArrival-warning"
+        cssClassForDisplay = " transitArrival-warning"
     }
     return (
-        <div className={"trainArrival-row"}>
-            <img className={"trainArrival-logo"} src={logo} alt="Subway Logo"/>
+        <div className={"transitArrival-row"}>
+            <img className={"transitArrival-logo"} src={logo} alt="Trasit Route Logo"/>
             <div className={cssClassForDisplay}>{`${props.minutes_to_arrival} min`}</div>
         </div>
     )
 }
 
-export default TrainArrival
+export default TransitArrival

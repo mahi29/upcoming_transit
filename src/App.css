@@ -10,11 +10,15 @@
   grid-template-rows: auto;
   grid-template-areas:
     "subwayPane ebikePane"
-    "subwayPane ebikePane";
+    "busPane ebikePane";
 }
 
 .App-upcomingTrains {
   grid-area: subwayPane;
+}
+
+.App-upcomingBuses {
+  grid-area: busPane;
 }
 
 .App-nearbyEbikes {
