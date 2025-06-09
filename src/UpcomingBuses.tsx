@@ -30,7 +30,7 @@ function UpcomingBuses() {
     React.useEffect(() => {
         async function fetchBusData(): Promise<UpcomingBus[]> {
             try {
-                const response = await fetch("http://localhost:3000/api/busdata")
+                const response = await fetch("/api/busdata")
                 if (!response.ok) {
                     console.log(`HTTP error! Status: ${response.status}`)
                     return [];
