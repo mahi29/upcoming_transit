@@ -1,10 +1,10 @@
-.UpcomingTrains-footer {
+.UpcomingBuses-footer {
     padding-left: 50px;
     padding-bottom: 50px;
     padding-top: 25px;
 }
 
-.UpcomingTrains-titleRow {
+.UpcomingBuses-titleRow {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -12,7 +12,7 @@
     padding-bottom: 20px;
 }
 
-.UpcomingTrains-title {
+.UpcomingBuses-title {
     font-size: 3.5vw;
     font-weight: bold;
     color: black;

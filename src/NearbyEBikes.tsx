@@ -84,7 +84,6 @@ function NearbyEBikes() {
                 const response = await json_response.json()
                 return parseEbikeData(response)
             } catch (error) {
-                console.log(error);
                 return {stationInformation: [], lastUpdatedAt: Date.now()}
             }
         }
@@ -95,7 +94,6 @@ function NearbyEBikes() {
         });
 
         const interval = setInterval(() => {
-            console.log(`MAHITH setInterval at ${Date.now()}`)
             fetchEBikeData().then((gbfsData) => {
                 setStationsInformation(gbfsData.stationInformation)
                 setLastUpdatedAt(gbfsData.lastUpdatedAt)

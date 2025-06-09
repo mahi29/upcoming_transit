@@ -30,11 +30,20 @@ function TransitArrival(props: Props) {
         }
     }
 
+    function getDepartureLimits(transit_route: string) {
+        switch (transit_route) {
+            case "Bus":
+                return {"warning": 4, "too_late": 2}
+            default:
+                return {"warning": 10, "too_late": 6}
+        }
+    }
     const logo = getLogo(props.transit_route)
     let cssClassForDisplay = "transitArrival-displayString"
-    if (props.minutes_to_arrival < 6) {
+    const departurelimits = getDepartureLimits(props.transit_route)
+    if (props.minutes_to_arrival < departurelimits.too_late) {
         cssClassForDisplay += " transitArrival-tooLate"
-    } else if (props.minutes_to_arrival < 10) {
+    } else if (props.minutes_to_arrival < departurelimits.warning) {
         cssClassForDisplay = " transitArrival-warning"
     }
     return (

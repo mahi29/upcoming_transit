@@ -75,14 +75,16 @@ function UpcomingTrains() {
             trainSet2Pointer += 1
         }
 
-        return mergedArray
+        // Return only the first 3 trains
+        return mergedArray.slice(0,3)
     }
 
 
     React.useEffect(() => {
-        async function getYellowTrainData(): Promise<UpcomingTrain[]> {
+        async function getTrainData(line_color: "yellow" | "orange"): Promise<UpcomingTrain[]> {
+            const api_url = line_color === "yellow" ? YELLOW_TRAIN_API_URL : ORANGE_TRAIN_API_URL
             try {
-                const response = await fetch(YELLOW_TRAIN_API_URL, {
+                const response = await fetch(api_url, {
                     headers: {
                         "x-api-key": API_KEY,
                     },
@@ -103,32 +105,9 @@ function UpcomingTrains() {
             }
         }
 
-        async function getOrangeTrainData(): Promise<UpcomingTrain[]> {
-            try {
-                const response = await fetch(ORANGE_TRAIN_API_URL, {
-                    headers: {
-                        "x-api-key": API_KEY,
-                    },
-                });
-                if (!response.ok) {
-                    console.log("Error fetching orange MTA API");
-                    return []
-                }
-                const buffer = await response.arrayBuffer();
-                const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(
-                    new Uint8Array(buffer)
-                );
-                const parsedData = parseData(feed)
-                return Array.from(parsedData.values())
-            } catch (error) {
-                console.log(error);
-                return []
-            }
-        }
-
         async function fetchTrainData() {
-            const yellowUpdates = await getYellowTrainData();
-            const orangeUpdates = await getOrangeTrainData();
+            const yellowUpdates = await getTrainData("yellow");
+            const orangeUpdates = await getTrainData("orange");
             return mergeTrains(yellowUpdates, orangeUpdates)
         }
 
@@ -152,8 +131,8 @@ function UpcomingTrains() {
 
     return (
         <div className={"NearbyEbikes-container"}>
-            <div className={"NearbyEbikes-titleRow"}>
-                <div className={"NearbyEbikes-title"}> {"Upcoming Buses"} </div>
+            <div className={"UpcomingTrains-titleRow"}>
+                <div className={"UpcomingTrains-title"}> {"Upcoming Trains"} </div>
             </div>
             <div>
                 {
