@@ -10,8 +10,6 @@ import {
 } from "./constants";
 import {getDuration} from "./helpers";
 import TransitArrival from "./TransitArrival";
-import GridContainer from "./GridContainer";
-import bolt_icon from "./img/bolt.svg";
 type UpcomingTrain = { route: string, arrivalTime: number }
 type TrainsAtStation = UpcomingTrain[]
 function UpcomingTrains() {
