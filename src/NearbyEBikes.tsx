@@ -3,11 +3,9 @@ import './NearbyEbikes.css';
 import bolt_icon from './img/bolt.svg'
 
 import {
-    CARROLL_ST_AND_SIXTH_AVE_STATION_ID,
     CARROLL_ST_STATION_ID,
     EBIKE_API_URL,
     FIFTH_AVE_AND_THIRD_ST_STATION_ID,
-    FIRST_ST_AND_SIXTH_AVE_STATION_ID,
     NEARBY_STATIONS,
     PRESIDENT_AVE_AND_FOURTH_AVE,
     REFRESH_INTERVAL_MS,
