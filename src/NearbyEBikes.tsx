@@ -39,10 +39,6 @@ function NearbyEBikes() {
             // Note -- the distances aren't actual physical distances
             // They are just relatively ordered from how close they are from my apartment
             switch(gbfs_station_data.station_id) {
-                case FIRST_ST_AND_SIXTH_AVE_STATION_ID:
-                    station_name = "Blank Street Coffee"
-                    station_distance = 6
-                    break;
                 case CARROLL_ST_STATION_ID:
                     station_name = "al di la"
                     station_distance = 1
@@ -50,10 +46,6 @@ function NearbyEBikes() {
                 case FIFTH_AVE_AND_THIRD_ST_STATION_ID:
                     station_name = "Playground"
                     station_distance = 2
-                    break
-                case CARROLL_ST_AND_SIXTH_AVE_STATION_ID:
-                    station_name = "Church"
-                    station_distance = 5
                     break
                 case PRESIDENT_AVE_AND_FOURTH_AVE:
                     station_name = "Blink Fitness"
