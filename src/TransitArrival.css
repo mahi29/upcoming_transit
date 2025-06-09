@@ -12,6 +12,14 @@
     padding-top: 20px;
 }
 
+.transitArrival-absoluteArrival {
+    align-self: end;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    font-weight: bold;
+    font-size: 2vw;
+}
+
 .transitArrival-displayString {
     margin-left: 5vw;
     font-weight: bold;

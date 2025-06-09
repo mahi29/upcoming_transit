@@ -130,13 +130,12 @@ function UpcomingTrains() {
     return (
         <div className={"NearbyEbikes-container"}>
             <div className={"UpcomingTrains-titleRow"}>
-                <div className={"UpcomingTrains-title"}> {"Upcoming Trains"} </div>
+                <div className={"UpcomingTrains-title"}> {"Trains to MAN"} </div>
             </div>
             <div>
                 {
                     upcomingTrains.map(function (upcomingTrain) {
-                        const minutesLeft = getDuration(upcomingTrain.arrivalTime * 1000)
-                        return <div><TransitArrival transit_route={upcomingTrain.route} minutes_to_arrival={minutesLeft} /></div>
+                        return <div><TransitArrival transitRoute={upcomingTrain.route} arrivalTime={upcomingTrain.arrivalTime} /></div>
                     })
                 }
             </div>

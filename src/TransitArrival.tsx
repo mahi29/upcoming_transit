@@ -5,14 +5,24 @@ import r_logo from './img/r_logo.svg'
 import default_mta_logo from './img/default_mta_logo.svg'
 
 import './TransitArrival.css';
+import {getDuration} from "./helpers";
 
 interface Props {
-    transit_route: string
-    minutes_to_arrival: number
+    transitRoute: string
+    arrivalTime: number
 }
 function TransitArrival(props: Props) {
-    if (props.minutes_to_arrival <= 0 || props.minutes_to_arrival > 30) {
+    const minutesLeft = getDuration(props.arrivalTime * 1000)
+
+    if (minutesLeft <= 0 || minutesLeft > 30) {
         return null;
+    }
+
+    function getAbsoluteArrivalTime() {
+        const absoluteTime = new Date(props.arrivalTime*1000)
+        const hours = absoluteTime.getHours().toString().padStart(2, '0');
+        const minutes = absoluteTime.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
     }
 
     function getLogo(transit_route: string) {
@@ -38,18 +48,19 @@ function TransitArrival(props: Props) {
                 return {"warning": 10, "too_late": 6}
         }
     }
-    const logo = getLogo(props.transit_route)
+    const logo = getLogo(props.transitRoute)
     let cssClassForDisplay = "transitArrival-displayString"
-    const departurelimits = getDepartureLimits(props.transit_route)
-    if (props.minutes_to_arrival < departurelimits.too_late) {
+    const departureLimits = getDepartureLimits(props.transitRoute)
+    if (minutesLeft < departureLimits.too_late) {
         cssClassForDisplay += " transitArrival-tooLate"
-    } else if (props.minutes_to_arrival < departurelimits.warning) {
+    } else if (minutesLeft < departureLimits.warning) {
         cssClassForDisplay = " transitArrival-warning"
     }
     return (
         <div className={"transitArrival-row"}>
             <img className={"transitArrival-logo"} src={logo} alt="Trasit Route Logo"/>
-            <div className={cssClassForDisplay}>{`${props.minutes_to_arrival} min`}</div>
+            <div className={cssClassForDisplay}>{`${minutesLeft} min`}</div>
+            <div className={"transitArrival-absoluteArrival"}>{`(${getAbsoluteArrivalTime()})`}</div>
         </div>
     )
 }

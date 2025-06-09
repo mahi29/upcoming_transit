@@ -3,7 +3,6 @@ import './UpcomingBuses.css'
 import {
     REFRESH_INTERVAL_MS,
 } from "./constants";
-import {getDuration} from "./helpers";
 import TransitArrival from "./TransitArrival";
 type UpcomingBus = { route: string, busNumber: string, arrivalTime: number }
 function UpcomingBuses() {
@@ -64,13 +63,12 @@ function UpcomingBuses() {
     return (
         <div className={"UpcomingBuses-container"}>
             <div className={"UpcomingBuses-titleRow"}>
-                <div className={"UpcomingBuses-title"}> {"Upcoming Buses"} </div>
+                <div className={"UpcomingBuses-title"}> {"B63 NB"} </div>
             </div>
             <div>
                 {
                     upcomingBuses.map(function (upcomingBus) {
-                        const minutesLeft = getDuration(upcomingBus.arrivalTime * 1000)
-                        return <div><TransitArrival transit_route={"Bus"} minutes_to_arrival={minutesLeft} /></div>
+                        return <div><TransitArrival transitRoute={"Bus"} arrivalTime={upcomingBus.arrivalTime} /></div>
                     })
                 }
             </div>
