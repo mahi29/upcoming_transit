@@ -11,9 +11,8 @@ function UpcomingBuses() {
     const [upcomingBuses, setUpcomingBuses] = React.useState<UpcomingBus[]>([])
     const [lastUpdatedAt, setLastUpdatedAt] = React.useState(Date.now())
 
-    function parseBusData(json_response: string): UpcomingBus[] {
-        const busData = JSON.parse(json_response)
-        const stopMonitoringDeliveryElement = busData.Siri.ServiceDelivery.StopMonitoringDelivery[0]
+    function parseBusData(jsonBusData: any): UpcomingBus[] {
+        const stopMonitoringDeliveryElement = jsonBusData.Siri.ServiceDelivery.StopMonitoringDelivery[0]
         const parsedUpcomingBuses: UpcomingBus[] = []
         stopMonitoringDeliveryElement.MonitoredStopVisit.forEach((monitoredStopVisit: any) => {
             const vehicleRef = monitoredStopVisit.MonitoredVehicleJourney.VehicleRef
