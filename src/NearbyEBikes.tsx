@@ -67,6 +67,18 @@ function NearbyEBikes() {
         return {stationInformation: Array.from(ebikeCountPerStation.values()), lastUpdatedAt: response.last_updated}
     }
 
+    function getTitleClass(stationsInformation: StationInformation[]) {
+        if (stationsInformation.length === 0) {
+            return "NearbyEbikes-noBikes"
+        }
+        // Only show it in green if bikes are at Al di La
+        if (stationsInformation.find(s => s.station_distance === 1)) {
+            return "NearbyEbikes-title"
+        }
+
+        return "NearbyEbikes-someBikes"
+    }
+
     React.useEffect(() => {
         async function fetchEBikeData() {
             try {
@@ -93,7 +105,7 @@ function NearbyEBikes() {
     }, [])
 
     const title = stationsInformation.length > 0 ? "Nearby E-Bikes" : "No E-Bikes Nearby"
-    const titleClass = stationsInformation.length > 0 ? "NearbyEbikes-title" : "NearbyEbikes-title-noBikes"
+    const titleClass = getTitleClass(stationsInformation)
     return (
 
         <div className={"NearbyEbikes-container"}>

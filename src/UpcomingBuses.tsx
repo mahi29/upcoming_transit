@@ -61,7 +61,7 @@ function UpcomingBuses() {
     }, []);
 
     return (
-        <div className={"UpcomingBuses-container"}>
+        <div className={"NearbyEbikes-container"}>
             <div className={"UpcomingBuses-titleRow"}>
                 <div className={"UpcomingBuses-title"}> {"B63 NB"} </div>
             </div>

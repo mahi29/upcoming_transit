@@ -11,11 +11,11 @@ function App() {
           <div className={"App-upcomingTrains"}>
             <UpcomingTrains />
           </div>
-            <div className={"App-upcomingBuses"}>
-                <UpcomingBuses />
-            </div>
           <div className={"App-nearbyEbikes"}>
-            <NearbyEBikes/>
+            <NearbyEBikes />
+          </div>
+          <div className={"App-upcomingBuses"}>
+            <UpcomingBuses/>
           </div>
         </div>
       </div>
